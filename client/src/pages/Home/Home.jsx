@@ -6,12 +6,13 @@ import { useState } from "react";
 import Login from "../../components/Login/Login";
 import Register from "../../components/Register/Register";
 function Home() {
+  
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
 
   const showLoginModal = () => {
     setIsLoginModalOpen(true);
   };
-  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
   const showRegisterModal = () => {
     setIsRegisterModalOpen(true);
   };
@@ -20,7 +21,7 @@ function Home() {
     <>
       <div className="home-container">
         <div className="home-container-logo">
-          <img src="" alt="metBear-logo" />
+          <img src="https://img.freepik.com/free-vector/cute-panda-meditation-yoga-cartoon-vector-icon-illustration-animal-sport-icon-concept-isolated-flat_138676-7858.jpg?ga=GA1.1.605070436.1748006589&semt=ais_hybrid&w=740" alt="metBear-logo" />
         </div>
         <div className="home-container-content">
           <Space
