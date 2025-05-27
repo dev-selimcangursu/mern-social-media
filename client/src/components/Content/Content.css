@@ -1,0 +1,7 @@
+.main-content {
+  width: 78%;
+  padding: 30px 40px;
+  box-sizing: border-box;
+  min-height: 100vh;
+  background-color: #fafafa;
+}

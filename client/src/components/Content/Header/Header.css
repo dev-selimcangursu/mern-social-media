@@ -1,0 +1,38 @@
+.header-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.header-right-area {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.header-icon {
+  font-size: 22px;
+  color: #555;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.header-icon:hover {
+  color:#b0ff94;
+}
+
+.post-button {
+  font-weight: 400;
+  border-radius: 6px;
+  background-color: #b0ff94;
+  color: #0a0909;
+}
+.post-button:hover,
+.post-button:focus-within {
+  background-color: #b0ff94 !important;
+  color: black !important;
+}

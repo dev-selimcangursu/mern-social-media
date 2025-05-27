@@ -1,7 +1,8 @@
 .profile-sidebar-main-summary-wrapper {
   display: flex;
   justify-content: space-around;
-  background-color: #f9f9f9;
+  border: 3px solid #b0ff94;
+  background-color: #b0ff94;
   padding: 12px;
   border-radius: 12px;
 }
