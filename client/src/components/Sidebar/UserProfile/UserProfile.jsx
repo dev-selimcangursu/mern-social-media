@@ -1,13 +1,17 @@
-import React from 'react'
-import './UserProfile.css'
+import React from "react";
+import "./UserProfile.css";
+
 function UserProfile({ name, username, image }) {
   return (
     <div className="profile-sidebar-picture-wrapper">
-      <img src={image} alt={name} />
-      <p className="profile-name">{name}</p>
-      <p className="profile-username">{username}</p>
+      <img
+        src={`http://www.localhost:5000/public/users/${image}`}
+        alt="profile"
+      />
+      <p className="profile-name">{name || "İsim yok"}</p>
+      <p className="profile-username">{username || "Kullanıcı adı yok"}</p>
     </div>
   );
 }
 
-export default UserProfile
+export default UserProfile;
