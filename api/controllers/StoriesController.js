@@ -6,7 +6,7 @@ const getStories = async (req, res) => {
     const { authId } = req.query;
 
     const followings = await UserFollows.find({
-      user_id: authId,
+      user_id: authId, 
       status: 1,
     }).select("related_user_id");
 
@@ -14,6 +14,8 @@ const getStories = async (req, res) => {
 
     const friendsStories = await Stories.find({
       user_id: { $in: followingUserIds },
+      is_active: true,           
+      expires_at: { $gt: new Date() } 
     }).populate("user_id", "fullname");
 
     res.status(200).json(friendsStories);
