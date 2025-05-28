@@ -5,17 +5,61 @@ import Content from "../../components/Content/Content";
 import StoryHighlight from "../../components/Sidebar/StoryHighlight/StoryHighlight";
 import PostCard from "../../components/PostCard/PostCard";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
-
+import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { storiesGet } from "../../features/stories/storieSlice";
+import { jwtDecode } from "jwt-decode";
 function Dashboard() {
-  // Giriş Yapılmadıysa Ekrana Erişim Yasak
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const [user, setUser] = useState({
+    id: "",
+    name: "",
+    username: "",
+    email: "",
+    image: "",
+    biography: "",
+  });
+
   useEffect(() => {
-    const isAuthenticated = localStorage.getItem("token");
-    if (!isAuthenticated) {
+    const token = localStorage.getItem("token");
+    if (token) {
+      try {
+        const decoded = jwtDecode(token);
+        setUser({
+          id: decoded.userId || "",
+          name: decoded.fullname || "",
+          username: decoded.username || "",
+          image: decoded.image || "",
+          biography: decoded.biography || "",
+          email: decoded.email || "",
+        });
+      } catch (error) {
+        console.error("Geçersiz token:", error);
+        setUser({
+          id: "",
+          name: "",
+          username: "",
+          email: "",
+          image: "",
+          biography: "",
+        });
+      }
+    } else {
       navigate("/");
     }
   }, [navigate]);
+
+  useEffect(() => {
+    if (user.id) {
+      dispatch(storiesGet(user.id));
+    }
+  }, [dispatch, user.id]);
+
+  const getStories = useSelector((state) => state.stories.story);
+
+  console.log(getStories);
   return (
     <div className="dashboard__container">
       <Sidebar />
@@ -23,17 +67,7 @@ function Dashboard() {
         <section className="story-highlight-section">
           <h3 className="section-title">Çevrendeki Hikayeler</h3>
           <div className="story-highlight-list">
-            <StoryHighlight name="selimcangursu3" />
-            <StoryHighlight name="ayse.erdem" />
-            <StoryHighlight name="mehmetkaya" />
-            <StoryHighlight name="elif_arslan" />
-            <StoryHighlight name="burak.turan" />
-            <StoryHighlight name="zeynepdemir" />
-            <StoryHighlight name="ahmetcan" />
-            <StoryHighlight name="irem.guler" />
-            <StoryHighlight name="fatih.yildiz" />
-            <StoryHighlight name="melisakurt" />
-            <StoryHighlight name="kemal.sari" />
+            <StoryHighlight getStories={getStories} />
           </div>
         </section>
         <section className="post-section">

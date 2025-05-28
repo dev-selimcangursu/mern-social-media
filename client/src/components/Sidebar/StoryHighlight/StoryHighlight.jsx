@@ -1,13 +1,19 @@
-import React from 'react'
-import './StoryHighlight.css'
-function StoryHighlight({ name }) {
+import React from "react";
+import "./StoryHighlight.css";
+
+function StoryHighlight({ getStories = [] }) {
   return (
-    <div className="story-highlight">
-      <span className="story-highlight-image">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkB6My7QsOx8_BbQJnKpNvxaeTvYgfHeT4Ww&s" alt="" />
-      </span>
-      <small className="highlight-name">{name}</small>
+    <div className="story-highlight-list">
+      {getStories.map((story, index) => (
+        <div className="story-highlight" key={index}>
+          <span className="story-highlight-image">
+            <img src={story.media_url} alt={story.name} />
+          </span>
+          <small className="highlight-name">{story.user_id.fullname}</small>
+        </div>
+      ))}
     </div>
   );
 }
-export default StoryHighlight
+
+export default StoryHighlight;
