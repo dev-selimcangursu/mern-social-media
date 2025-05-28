@@ -4,6 +4,7 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const UserRoutes = require("./routers/UserRoutes");
 const UserFollowsRoutes = require("./routers/UserFollowsRoutes");
+const StoriesRoutes = require("./routers/StoriesRoutes");
 
 const mongoose = require("mongoose");
 const path = require("path");
@@ -26,6 +27,7 @@ mongoose
 // Rota Yönlendirme
 app.use("/user", UserRoutes);
 app.use("/follows", UserFollowsRoutes);
+app.use("/stories", StoriesRoutes);
 // Sunucuyu Ayağa Kaldırma
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
