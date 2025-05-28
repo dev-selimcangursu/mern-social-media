@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./Sidebar.css";
 import Logo from "../Logo/Logo";
 import {
@@ -17,12 +17,53 @@ import SidebarMenu from "./SidebarMenu/SidebarMenu";
 import StoryHighlight from "./StoryHighlight/StoryHighlight";
 import { jwtDecode } from "jwt-decode";
 import Swal from "sweetalert2";
+import { useDispatch, useSelector } from "react-redux";
+import { userFollowCount } from "../../features/userFollows/userFollowsSlice";
 
 function Sidebar() {
+  const dispatch = useDispatch();
+  // Takip verilerini global state'ten alıyoruz
+  const followCount = useSelector((state) => state.userFollows.count);
+  // Kullanıcı bilgilerini tutacak local state
+  const [user, setUser] = useState({
+    id: "",
+    name: "",
+    username: "",
+    email: "",
+    image: "",
+    biography: "",
+  });
+  // İlk yüklemede localStorage'dan token'ı alır ve decode ederek kullanıcı bilgilerini set eder
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      try {
+        const decoded = jwtDecode(token);
+        setUser({
+          id: decoded.userId,
+          name: decoded.fullname,
+          username: decoded.username,
+          image: decoded.image,
+          biography: decoded.biography,
+          email: decoded.email,
+        });
+      } catch (error) {
+        console.error("Geçersiz token:", error);
+      }
+    }
+  }, []);
+  // Kullanıcı ID mevcutsa takip bilgilerini çekmek için Redux action
+  useEffect(() => {
+    if (user.id) {
+      dispatch(userFollowCount(user.id));
+    }
+  }, [dispatch, user.id]);
+
+  // Profil istatistikleri (Post sayısı sabit, takipçi/takip edilen redux üzerinden gelir)
   const stats = [
-    { value: "22", label: "Post" },
-    { value: "12.5K", label: "Takipçi" },
-    { value: "1.5K", label: "Takip Edilen" },
+    { value: "0", label: "Post" },
+    { value: followCount.followingMeCount, label: "Takipçi" },
+    { value: followCount.meFollowCount, label: "Takip Edilen" },
   ];
 
   // Güvenli çıkış fonksiyonu
@@ -43,33 +84,7 @@ function Sidebar() {
       }
     });
   };
-
-  let user = {
-    name: "",
-    username: "",
-    email: "",
-    image: "",
-    biography: "",
-  };
-
-  const token = localStorage.getItem("token");
-  if (token) {
-    try {
-      const decoded = jwtDecode(token);
-      console.log("Decoded JWT Token:", decoded);
-
-      user = {
-        name: decoded.fullname,
-        username: decoded.username,
-        image: decoded.image,
-        biography: decoded.biography,
-        email: decoded.email,
-      };
-    } catch (error) {
-      console.error("Geçersiz token:", error);
-    }
-  }
-
+  // Sidebar menüsünde gösterilecek menü öğeleri
   const menuItems = [
     { icon: HomeOutlined, label: "Anasayfa", href: "#" },
     { icon: UserOutlined, label: "Profilim", href: "#" },
@@ -79,6 +94,7 @@ function Sidebar() {
     { icon: SettingOutlined, label: "Ayarlar", href: "#" },
     { icon: LogoutOutlined, label: "Çıkış", href: "#", onClick: handleLogout },
   ];
+
   return (
     <section className="profile-sidebar" id="profile-sidebar">
       <div className="sidebar-sidebar-logo-wrapper">
