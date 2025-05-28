@@ -9,3 +9,12 @@ export const createUser = async (userData) => {
     throw error; 
   }
 };
+export const login = async (loginData) => {
+  try {
+    const response = await axios.post("http://localhost:5000/user/login", loginData);
+    return response.data;
+  } catch (error) {
+    console.error("Giriş Yapılamadı!:", error);
+    throw error; 
+  }
+};

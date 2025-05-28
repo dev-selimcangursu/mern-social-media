@@ -4,8 +4,18 @@ import Sidebar from "../../components/Sidebar/Sidebar";
 import Content from "../../components/Content/Content";
 import StoryHighlight from "../../components/Sidebar/StoryHighlight/StoryHighlight";
 import PostCard from "../../components/PostCard/PostCard";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 function Dashboard() {
+  // Giriş Yapılmadıysa Ekrana Erişim Yasak
+  const navigate = useNavigate();
+  useEffect(() => {
+    const isAuthenticated = localStorage.getItem("token");
+    if (!isAuthenticated) {
+      navigate("/");
+    }
+  }, [navigate]);
   return (
     <div className="dashboard__container">
       <Sidebar />
