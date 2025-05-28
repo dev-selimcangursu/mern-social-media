@@ -1,16 +1,16 @@
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
 const JWT_SECRET = process.env.JWT_SECRET || "secretkey123";
 
-// Yeni Kullanıcı Kayıt Fonksiyonu
+// Yeni Kullanıcı Kayıt
 const create = async (req, res) => {
   try {
-    const { fullname, username, email,phone, password, date_of_birth } = req.body;
+    const { fullname, username, email, phone, password, date_of_birth } =
+      req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // 1. E-posta kontrolü
     const existingEmail = await User.findOne({ email });
     if (existingEmail) {
       return res.json({
@@ -18,7 +18,7 @@ const create = async (req, res) => {
         message: "Bu mail adresiyle kayıtlı bir hesap zaten mevcut!",
       });
     }
-    // 2. Kullanıcı adı kontrolü
+
     const existingUsername = await User.findOne({ username });
     if (existingUsername) {
       return res.json({
@@ -27,7 +27,6 @@ const create = async (req, res) => {
       });
     }
 
-    // 3. Yeni kullanıcı oluştur
     const newUser = new User({
       fullname,
       username,
@@ -56,20 +55,19 @@ const create = async (req, res) => {
   }
 };
 
-// Kullanıcı Login İşlemi
+// Login
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-
-    // Kullanıcıyı email ile bul
     const user = await User.findOne({ email });
+
     if (!user) {
       return res.status(401).json({
         success: false,
         message: "E-Posta Hatalı veya Böyle Bir Kullanıcı Yok",
       });
     }
-    // Şifre kontrolü
+
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) {
       return res.status(401).json({
@@ -77,22 +75,23 @@ const login = async (req, res) => {
         message: "Şifre yanlış",
       });
     }
-    // JWT Token 
-    const token = jwt.sign(
-      { userId: user._id, email: user.email }, 
-      JWT_SECRET, 
-      { expiresIn: '1d' }
-    );
+
+    const payload = {
+      fullname: user.fullname,
+      username: user.username,
+      email: user.email,
+      image: user.picture || "",
+      biography: user.biography || "",
+      userId: user._id,
+    };
+
+    const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "1d" });
+
     return res.status(200).json({
       success: true,
       message: "Giriş Başarılı",
       token,
-      user: {
-        id: user._id,
-        fullname: user.fullname,
-        email: user.email,
-        username: user.username,
-      }
+      user: payload,
     });
   } catch (error) {
     console.error("Giriş hatası:", error);
@@ -102,4 +101,5 @@ const login = async (req, res) => {
     });
   }
 };
-module.exports = { create , login };
+
+module.exports = { create, login };

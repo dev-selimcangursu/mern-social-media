@@ -4,11 +4,13 @@ const dotenv  = require('dotenv');
 const cors    = require('cors');
 const UserRoutes = require('./routers/UserRoutes')
 const mongoose = require('mongoose');
+const path = require("path");
 
 // Genel Ayarlar 
 dotenv.config();
 app.use(express.json());
 app.use(cors())
+app.use("/public", express.static(path.join(__dirname, "public")));
 
 // Mongoose Bağlantısı
 mongoose.connect(process.env.MONGO_URI, {
