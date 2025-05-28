@@ -30,7 +30,7 @@ function Home() {
             size="middle"
             style={{ width: "100%" }}
           >
-            <Title level={2}>MetBear | Tanışmanın En Doğal Hali</Title>
+            <Title level={2}>MetBear | Tanışmanın En Doğal Yolu</Title>
             <Text type="secondary" style={{ fontSize: 16 }}>
               Hemen Topluluğa Katıl !
             </Text>

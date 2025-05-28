@@ -1,4 +1,32 @@
-.dashboard__container{
-    display: flex;
-    flex-direction: row;
+.dashboard__container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+.story-highlight-section {
+  width: 100%;
+  border-radius: 12px;
+}
+
+.section-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.story-highlight-list {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+.post-section {
+  width: 100%;
+  margin-top:10px;
+}
+
+.post-section-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }

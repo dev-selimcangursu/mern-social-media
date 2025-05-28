@@ -1,73 +1,128 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Register.css";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import { Input, Button, Modal, Typography } from "antd";
+import { Input, Button, Modal, Typography, message } from "antd";
+import { createUser } from "../../services/userService";
+import Swal from "sweetalert2";
+
 const { Title } = Typography;
 
 function Register({ isOpen, onClose }) {
-  const handleCancel = () => {
-    onClose();
+  // Form Alanındaki State
+  const [formData, setFormData] = useState({
+    fullname: "",
+    username: "",
+    email: "",
+    phone: "",
+    date_of_birth: "",
+    password: "",
+  });
+
+  // İnput Alanlarındaki Değerleri Yakala
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  // Gelen Verileri Servise Gönder
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const result = await createUser(formData);
+      if (result.success) {
+        await Swal.fire({
+          icon: "success",
+          title: "Başarılı!",
+          text: result.message,
+          timer: 2000,
+          timerProgressBar: true,
+          showConfirmButton: false,
+          position: "top-end",
+        });
+        onClose();
+      } else {
+        await Swal.fire({
+          icon: "error",
+          title: "Hata!",
+          text: result.message,
+          confirmButtonText: "Tamam",
+          position: "top-end",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      message.error("Sunucu hatası!");
+    }
   };
 
   return (
-    <Modal open={isOpen} footer={null} onCancel={handleCancel} centered>
-      <form action="">
-        <div id="register-space" className="login-wrapper">
-          <form className="register-form">
-            <Title level={3}>Hesabınızı Oluşturun!</Title>
-            <Input
-              size="large"
-              placeholder="İsim Soyisim Giriniz..."
-              prefix={<UserOutlined />}
-              className="register-input"
-              type="text"
-              required
-            />
-            <Input
-              size="large"
-              placeholder="E-Posta Adresinizi Giriniz..."
-              prefix={<UserOutlined />}
-              className="register-input"
-              type="email"
-              required
-            />
-            <Input
-              size="large"
-              placeholder="Telefon Numaranızı Giriniz..."
-              prefix={<UserOutlined />}
-              className="register-input"
-              type="tel"
-              required
-            />
-            <Input
-              size="large"
-              placeholder="Doğum Tarihinizi Giriniz..."
-              prefix={<UserOutlined />}
-              className="register-input"
-              type="date"
-              required
-            />
-            <Input.Password
-              size="large"
-              placeholder="Şifrenizi Giriniz..."
-              prefix={<LockOutlined />}
-              className="register-input"
-              required
-            />
-            <Button
-              type="primary"
-              size="large"
-              block
-              htmlType="submit"
-              className="register-button"
-            >
-              Kayıt Ol
-            </Button>
-            <p className="register-footer-text">
-              Hesabınız var mı ? <a href="/login">Giriş Yap</a>
-            </p>
-          </form>
-        </div>
+    <Modal open={isOpen} footer={null} onCancel={onClose} centered>
+      <form onSubmit={handleSubmit} className="register-form">
+        <Title level={3}>Hesabınızı Oluşturun!</Title>
+        <Input
+          name="fullname"
+          value={formData.fullname}
+          onChange={handleChange}
+          placeholder="İsim Soyisim"
+          prefix={<UserOutlined />}
+          required
+          style={{ marginTop: "10px" }}
+        />
+        <Input
+          name="username"
+          value={formData.username}
+          onChange={handleChange}
+          placeholder="Kullanıcı Adı"
+          prefix={<UserOutlined />}
+          required
+          style={{ marginTop: "10px" }}
+        />
+        <Input
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          type="email"
+          placeholder="E-posta"
+          prefix={<UserOutlined />}
+          required
+          style={{ marginTop: "10px" }}
+        />
+        <Input
+          name="phone"
+          value={formData.phone}
+          onChange={handleChange}
+          placeholder="Telefon"
+          prefix={<UserOutlined />}
+          required
+          style={{ marginTop: "10px" }}
+        />
+        <Input
+          name="date_of_birth"
+          value={formData.date_of_birth}
+          onChange={handleChange}
+          type="date"
+          placeholder="Doğum Tarihi"
+          prefix={<UserOutlined />}
+          required
+          style={{ marginTop: "10px" }}
+        />
+
+        <Input.Password
+          name="password"
+          value={formData.password}
+          onChange={handleChange}
+          placeholder="Şifre"
+          prefix={<LockOutlined />}
+          required
+          style={{ marginTop: "10px" }}
+        />
+        <Button
+          type="primary"
+          style={{ marginTop: "10px" }}
+          htmlType="submit"
+          block
+        >
+          Kayıt Ol
+        </Button>
       </form>
     </Modal>
   );

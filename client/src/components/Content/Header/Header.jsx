@@ -12,13 +12,13 @@ function Header() {
 
       <div className="header-right-area">
         <Tooltip title="Bildirimler"m placement="bottom">
-          <Badge count={3} style={{backgroundColor:'#b0ff94',color:'black'}} offset={[0, 4]}>
+          <Badge count={3} style={{backgroundColor:'red',color:'white'}} offset={[0, 4]}>
             <NotificationOutlined className="header-icon" />
           </Badge>
         </Tooltip>
 
         <Tooltip title="Mesajlar" placement="bottom">
-          <Badge count={7} style={{backgroundColor:'#b0ff94',color:'black'}} offset={[0, 4]}>
+          <Badge count={7} style={{backgroundColor:'red',color:'white'}} offset={[0, 4]}>
             <MessageOutlined className="header-icon" />
           </Badge>
         </Tooltip>

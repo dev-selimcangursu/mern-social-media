@@ -1,8 +1,8 @@
 .profile-sidebar-main-summary-wrapper {
   display: flex;
   justify-content: space-around;
-  border: 3px solid #b0ff94;
-  background-color: #b0ff94;
+  border: 3px solid red;
+  background-color: red;
   padding: 12px;
   border-radius: 12px;
 }
@@ -13,9 +13,9 @@
   font-size: 16px;
   font-weight: bold;
   margin: 0;
-  color: #222;
+  color: whitesmoke;
 }
 .profile-sidebar-main-summary small {
   font-size: 12px;
-  color: #666;
+  color: white;
 }

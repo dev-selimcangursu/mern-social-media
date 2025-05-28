@@ -18,7 +18,7 @@ import StoryHighlight from "./StoryHighlight/StoryHighlight";
 
 function Sidebar() {
   const stats = [
-    { value: "472K", label: "Post" },
+    { value: "22", label: "Post" },
     { value: "12.5K", label: "Takipçi" },
     { value: "1.5K", label: "Takip Edilen" },
   ];
@@ -44,7 +44,7 @@ function Sidebar() {
         image="https://st3.depositphotos.com/7486768/17806/v/450/depositphotos_178065822-stock-illustration-profile-anonymous-face-icon-gray.jpg"
       />
       <ProfileStats stats={stats} />
-      <Bio text="Sosyal medya biyografi alanı" />
+      <Bio text="Marmara Üniversitesi Tıp Fakültesi | İstanbul | 24" />
       <div className="profile-sidebar-story-highlights-wrapper">
         <StoryHighlight name="Öne Çıkan Adı 1" />
         <StoryHighlight name="Öne Çıkan Adı 2" />

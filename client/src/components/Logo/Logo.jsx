@@ -4,7 +4,7 @@ function Logo({image}) {
   return (
     <img
       src={image}
-      alt="metBear-logo"
+      alt="LangBear-Logo"
     />
   );
 }

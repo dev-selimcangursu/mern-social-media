@@ -8,5 +8,5 @@
 
 .search-input:hover,
 .search-input:focus-within {
-  box-shadow: 0 0 12px #b0ff94;
+  box-shadow: 0 0 12px red;
 }

@@ -22,17 +22,17 @@
 }
 
 .header-icon:hover {
-  color:#b0ff94;
+  color:red;
 }
 
 .post-button {
   font-weight: 400;
   border-radius: 6px;
-  background-color: #b0ff94;
-  color: #0a0909;
+  background-color: red;
+  color: whitesmoke;
 }
 .post-button:hover,
 .post-button:focus-within {
-  background-color: #b0ff94 !important;
-  color: black !important;
+  background-color: red !important;
+  color: white !important;
 }
